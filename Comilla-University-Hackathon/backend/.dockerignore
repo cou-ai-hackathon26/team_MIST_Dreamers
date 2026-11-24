@@ -1,0 +1,15 @@
+# Allow-list: the image gets only what is named below, so secrets (.env) and big local data never go in.
+# The models are mounted at run time (docker-compose.yml); the databases live in the Postgres and Chroma
+# containers.
+*
+
+!requirements.txt
+!pyproject.toml
+!app/
+!scripts/
+!data/services.yaml
+!data/raw_docs/
+!data/questions/
+
+**/__pycache__/
+**/*.pyc

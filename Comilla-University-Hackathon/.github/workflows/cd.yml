@@ -1,0 +1,65 @@
+# CD: after CI passes on main, GitHub-hosted runner connects to
+# our Azure VM through SSH and executes deploy/deploy.sh.
+
+name: CD
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to Azure VM
+
+    if: >-
+      github.repository == 'Tamim2276/Comilla-University-Hackathon' &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push' &&
+        github.event.workflow_run.head_branch == 'main' &&
+        github.event.workflow_run.head_repository.full_name == github.repository))
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      # Get the deployment script from the commit that triggered CI.
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      # Configure SSH using Azure's PEM private key.
+      - name: Configure SSH
+        env:
+          VM_SSH_KEY: ${{ secrets.VM_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          printf '%s\n' "$VM_SSH_KEY" > ~/.ssh/azure_key
+          chmod 600 ~/.ssh/azure_key
+
+      # Execute deploy.sh remotely on Azure VM.
+      - name: Deploy
+        env:
+          VM_HOST: ${{ secrets.VM_HOST }}
+          VM_USER: ${{ secrets.VM_USER }}
+        run: |
+          ssh \
+            -i ~/.ssh/azure_key \
+            -o StrictHostKeyChecking=accept-new \
+            -o BatchMode=yes \
+            "$VM_USER@$VM_HOST" \
+            'bash -s' < deploy/deploy.sh

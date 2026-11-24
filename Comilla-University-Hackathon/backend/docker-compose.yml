@@ -1,0 +1,81 @@
+# Ek Call services: Postgres (history, logs, answer cache), Chroma (document search) and the backend.
+#
+# Run from backend/:
+#   docker compose up -d --build     build the backend image and start everything
+#   docker compose ps                all three should say "healthy"
+#   docker compose logs -f backend   backend log
+#   docker compose down              stop (add -v ONLY to delete all data)
+#
+# Developing with `uvicorn --reload` on the machine instead: start only the data services,
+#   docker compose up -d postgres chroma
+# and the backend on the machine reaches them on localhost (DATABASE_URL and CHROMA_HOST in .env).
+#
+# POSTGRES_USER, POSTGRES_PASSWORD and POSTGRES_DB come from backend/.env (Compose reads the .env next to
+# this file; see .env.example). Ports listen on 127.0.0.1 only, so other machines cannot reach them.
+
+name: ekcall
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?set POSTGRES_USER in backend/.env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in backend/.env}
+      POSTGRES_DB: ${POSTGRES_DB:?set POSTGRES_DB in backend/.env}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  chroma:
+    # Must match chromadb in requirements.txt: the client refuses a different server version.
+    image: chromadb/chroma:1.5.9
+    restart: unless-stopped
+    environment:
+      ANONYMIZED_TELEMETRY: "FALSE"
+    ports:
+      - "127.0.0.1:8001:8000" # 8000 on the host is the backend
+    volumes:
+      - chroma-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8000 && printf \"GET /api/v2/heartbeat HTTP/1.0\\r\\n\\r\\n\" >&3 && grep -q 200 <&3'"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: .
+    image: ekcall-backend
+    restart: unless-stopped
+    env_file: .env # all backend settings; the two lines below replace the localhost addresses
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      CHROMA_HOST: chroma
+      CHROMA_PORT: "8000" # port inside the Docker network (8001 is only the host side)
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-8000}:8000" # ngrok and the app on this machine reach it here
+    volumes:
+      # BanglaBERT, e5 and TF-IDF (about 900 MB) are not in the image. They are read from a folder on the
+      # machine, outside the project: ~/Desktop/models (unzip ekcall_models.zip into ~/Desktop), or
+      # MODELS_DIR in .env. Start fails if the folder is missing, instead of running without models.
+      - type: bind
+        source: ${MODELS_DIR:-~/Desktop/models}
+        target: /app/data/models
+        read_only: true
+        bind:
+          create_host_path: false
+    depends_on:
+      postgres:
+        condition: service_healthy
+      chroma:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
+  chroma-data:

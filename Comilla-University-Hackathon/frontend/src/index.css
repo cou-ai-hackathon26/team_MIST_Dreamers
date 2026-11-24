@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/* Colour theme: the flag of Bangladesh.
+   Use these tokens (bg-bd-green, text-bd-red-dark ...), never raw hex in components.
+   Contrast on white: green 6.6:1 (any text), flag red 4.0:1 (large text, icons, buttons only),
+   red-dark 6.0:1 (small red text). */
+@theme {
+  --color-bd-green: #006a4e; /* flag green: main brand colour */
+  --color-bd-green-dark: #004d38; /* hover / pressed */
+  --color-bd-green-soft: #e6f2ee; /* page and card tints */
+  --color-bd-red: #f42a41; /* flag red: accents, highlights, big buttons */
+  --color-bd-red-dark: #c4162b; /* red for small text and borders */
+  --color-bd-red-soft: #fde8eb; /* soft red background (errors, warnings) */
+}
+
+/* Big, readable text for elderly users (SRS 3.3: minimum 16 px). */
+html {
+  font-size: 18px;
+}
+
+body {
+  background-color: var(--color-bd-green-soft);
+}

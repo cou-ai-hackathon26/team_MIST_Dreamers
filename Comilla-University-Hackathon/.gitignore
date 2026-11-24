@@ -1,0 +1,35 @@
+# Private, local-only files
+CLAUDE.md
+prompts/
+.claude/settings.local.json
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Node / frontend
+node_modules/
+dist/
+
+# Secrets (keep the .example files)
+.env
+.env.*
+!.env.example
+
+# Local data, models, databases
+backend/data/chroma/
+backend/data/models/*
+!backend/data/models/.gitkeep
+*.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# training logs (sprint T1B)
+backend/logs/
+
+.git

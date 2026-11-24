@@ -1,0 +1,12 @@
+# Demo questions for pre-warming the answer cache (D2-T4): python -m scripts.prewarm
+# One question per line, typed exactly as they will be asked in the app. Lines starting with # are ignored.
+# Only questions the local router is sure about are cached (FR-AGT-15); the script says which ones.
+আমার বয়স ৬৭। আমি কি বয়স্ক ভাতা পাবো? কী কী লাগবে?
+বিধবা ভাতার জন্য কী লাগে?
+প্রতিবন্ধী ভাতা পেতে কী কী কাগজ লাগে?
+NID-te namer banan bhul, ki korbo?
+জন্ম নিবন্ধন করতে কী কী কাগজ লাগে?
+ই-পাসপোর্ট করতে কত টাকা লাগে?
+জমির নামজারি করতে কী কী লাগে?
+ট্রেড লাইসেন্স করতে কী কী কাগজ লাগে?
+প্রতিবেশীর সাথে জমি নিয়ে ঝামেলা, কী করবো?

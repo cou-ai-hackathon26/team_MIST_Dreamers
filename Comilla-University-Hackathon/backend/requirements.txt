@@ -1,0 +1,35 @@
+# Python 3.11. Install in this order inside the venv:
+#   pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements.txt
+#   pip install git+https://github.com/csebuetnlp/normalizer   (BanglaBERT text normaliser)
+
+# Web API
+fastapi==0.165.0
+uvicorn[standard]==0.54.0
+pydantic-settings==2.16.3
+python-multipart==0.0.34
+httpx==0.28.1
+
+# Database + config files
+sqlalchemy==2.1.9
+psycopg[binary]==3.3.9  # Postgres driver (DATABASE_URL=postgresql+psycopg://...)
+pyyaml==6.0.3
+
+# Phone calls
+twilio==9.13.0
+
+# AI / ML
+google-genai==3.6.1
+langgraph==1.2.23
+chromadb==1.5.9
+sentence-transformers==6.3.0
+transformers==5.23.0
+scikit-learn==1.9.1
+joblib==1.6.0
+numpy==2.4.6
+pandas==3.1.1
+gtts==2.2.4
+
+# Dev tools
+pytest==9.2.0
+ruff==0.17.6

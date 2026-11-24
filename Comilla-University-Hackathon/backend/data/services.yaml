@@ -1,0 +1,66 @@
+# The 9 router labels (SRS 1.2, FR-DATA-01): 8 services + `other`.
+# office_bn = where citizens apply; sms_name = short name in the SMS title.
+# search_terms_bn = words the official documents use, added to searches (FR-AGT-20). Optional.
+# Office names are general knowledge for now: verify them against the official documents in D1-R1.
+
+- id: old_age_allowance
+  name_bn: বয়স্ক ভাতা
+  name_en: Old Age Allowance
+  office_bn: উপজেলা সমাজসেবা অফিস
+  sms_name: বয়স্ক ভাতা
+  search_terms_bn: বয়স্কভাতা বয়স্ক বয়সের ভিত্তিতে অক্ষম ভূমিহীন ভাতাভোগী যোগ্যতা আবেদন
+
+- id: widow_allowance
+  name_bn: বিধবা ভাতা
+  name_en: Widow Allowance
+  office_bn: উপজেলা সমাজসেবা অফিস
+  sms_name: বিধবা ভাতা
+  search_terms_bn: বিধবা স্বামী নিগৃহীতা দুঃস্থ মহিলা ভাতাভোগী যোগ্যতা আবেদন
+
+- id: disability_allowance
+  name_bn: প্রতিবন্ধী ভাতা
+  name_en: Disability Allowance
+  office_bn: উপজেলা সমাজসেবা অফিস
+  sms_name: প্রতিবন্ধী ভাতা
+  search_terms_bn: প্রতিবন্ধী প্রতিবন্ধিতা প্রতিবন্ধীব্যক্তি সুবর্ণ নাগরিক ভাতা আবেদন
+
+- id: birth_registration
+  name_bn: জন্ম নিবন্ধন
+  name_en: Birth Registration
+  office_bn: ইউনিয়ন পরিষদ, পৌরসভা বা সিটি কর্পোরেশন
+  sms_name: জন্ম নিবন্ধন
+  search_terms_bn: জন্ম নিবন্ধন শিশুর জন্মের তথ্য নিবন্ধক সনদ আবেদন
+
+- id: nid_correction
+  name_bn: এনআইডি সংশোধন
+  name_en: NID Correction
+  office_bn: উপজেলা বা থানা নির্বাচন অফিস
+  sms_name: এনআইডি সংশোধন
+  search_terms_bn: জাতীয় পরিচয়পত্র এনআইডি ভোটার সংশোধন জন্মতারিখ নাম হলফনামা
+
+- id: e_passport
+  name_bn: ই-পাসপোর্ট
+  name_en: e-Passport
+  office_bn: আঞ্চলিক পাসপোর্ট অফিস
+  sms_name: ই-পাসপোর্ট
+  search_terms_bn: পাসপোর্ট ই-পাসপোর্ট বিদেশ ভিসা মেয়াদ আঞ্চলিক পাসপোর্ট অফিস আবেদন
+
+- id: land_mutation
+  name_bn: ই-নামজারি
+  name_en: Land Mutation (e-Namjari)
+  office_bn: উপজেলা ভূমি অফিস
+  sms_name: ই-নামজারি
+  search_terms_bn: নামজারি মিউটেশন জমি খতিয়ান ভূমি বিক্রয় দলিল আবেদন
+
+- id: trade_licence
+  name_bn: ট্রেড লাইসেন্স
+  name_en: Trade Licence
+  office_bn: পৌরসভা, সিটি কর্পোরেশন বা ইউনিয়ন পরিষদ
+  sms_name: ট্রেড লাইসেন্স
+  search_terms_bn: ট্রেড লাইসেন্স ব্যবসা নবায়ন সিটি কর্পোরেশন ফি আবেদন
+
+- id: other
+  name_bn: অন্যান্য
+  name_en: Other (out of scope)
+  office_bn: ৩৩৩ বা উপজেলা অফিস
+  sms_name: অন্যান্য
